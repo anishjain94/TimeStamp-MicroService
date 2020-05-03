@@ -26,6 +26,8 @@ app.get("/api/hello", function (req, res) {
 
 app.get('/api/timestamp/:datestring', function (req, res) {
   let datestring = req.params.datestring;
+
+
   if (/\d{5,}/.test(datestring)) {
     let dateInt = parseInt(datestring);
 
@@ -34,26 +36,26 @@ app.get('/api/timestamp/:datestring', function (req, res) {
       utc: new Date(dateInt).toUTCString()
     });
   }
-
-  let dateobj = new Date(datestring);
-  if (dateobj.toString === "Invalid Date") {
-    res.json({
-      error: "Invalid Date"
-    });
+  else {
+    let dateobj = new Date(datestring);
+    if (dateobj.toString() === "Invalid Date") {
+      res.json({
+        error: "Invalid Date"
+      });
+    }
+    else
+      res.json({
+        unix: dateobj.valueOf(),
+        utc: dateobj.toUTCString()
+      });
   }
-  else
-    res.json({
-      unix: dateobj.valueOf(),
-      utc: dateobj.toUTCString()
-    });
-
 });
 
 
 app.get('/api/timestamp/', function (req, res) {
 
   res.json({
-    unix: date.getTime(),
+    unix: Date.now(),
     utc: date.toUTCString()
   })
 
